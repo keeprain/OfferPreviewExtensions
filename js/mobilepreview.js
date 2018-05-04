@@ -36,11 +36,6 @@ function onWindowLoad() {
 
 function parsePriceInfo(jsonOfferDetail) {
 
-
-    // Typical action to be performed when the document is ready:
-    // document.getElementById("message").innerHTML = xhttp.responseText;
-
-    //var jsonOfferDetail = JSON.parse(xhttp.responseText);
     if (jsonOfferDetail['offerType'] == "BUYABLE") {
         document.getElementById('sample-badge-div').hidden = true;
         document.getElementById("price").innerText = "$" + jsonOfferDetail['offerPrice']['amount'];

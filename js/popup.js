@@ -180,6 +180,7 @@ function onWindowLoad() {
       console.log(currentOfferId);
       showFutureOffers();
       loadOfferPreviewinPopup(currentOfferId);
+      document.getElementById("desktopLink").setAttribute("data-id", currentOfferId);
     }
     else {
       showFutureOffers();
@@ -204,6 +205,9 @@ function onWindowLoad() {
 
   var offerId = document.getElementById("mobileLink").getAttribute("data-id");
   document.getElementById("mobileLink").onclick = function () { openMobilePreview() };
+  
+  document.getElementById("desktopLink").onclick = function () { openDesktopPreview(offerId)};
+  
 
 }
 
@@ -216,6 +220,12 @@ function backToOfferList() {
 function openMobilePreview() {
   //localStorage["offerId"] = offerId;
   chrome.tabs.create({ url: "mobilepreview.html" });
+}
+
+
+function openDesktopPreview() {
+  //localStorage["offerId"] = offerId;
+  chrome.tabs.create({url: "desktoppreview.html"});
 }
 
 function toggle(prefix) {
@@ -250,6 +260,7 @@ function toggleToCollaps(prefix) {
 }
 
 function showFutureOffers() {
+  /*
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -260,13 +271,30 @@ function showFutureOffers() {
       parseJsonToOfferList(jsonData);
     }
   };
+  */
   var date = new Date();
   var fromDate = date.getTime();
   var toDate = date.getTime() + 7 * 24 * 60 * 60 * 1000;
   var url = "https://tesoro-offer-management-iad.iad.proxy.amazon.com/services/search/offersDate?fromDate=" + fromDate
     + "&toDate=" + toDate;
+  /*
   request.open("POST", url, true);
   request.send();
+  */
+  $.ajax({
+    type: 'POST',
+    url: url,
+    success: function (data) {
+      //var jsonOfferCreativeData = JSON.parse(creativeRequest.responseText);
+      parseJsonToOfferList(data);
+    },
+    error: function (xhr, status, error) {
+      // handle error
+      //clearPreviousPreview();
+      var err = eval("(" + xhr.responseText + ")");
+      console.log(err);
+    }
+  });
 }
 
 function parseJsonToOfferList(jsonData) {
@@ -304,14 +332,27 @@ function parseJsonToOfferList(jsonData) {
       console.log(event.target);
       loadOfferPreviewinPopupFromOfferList(event.target);
     }
-    /*
-    $("#offerPreviewMobileLink" + i).click ( function(event) {
-      console.log ($(event.target).text());
-     loadOfferPreviewinPopupFromOfferList($(event.target));
-    })
-    */
 
     dateSpan.appendChild(link);
+
+    var desktopPreviewLinkText = "Desktop CX";
+    link = document.createElement("a");
+    linkText = document.createTextNode(desktopPreviewLinkText);
+    link.appendChild(linkText);
+    link.setAttribute("data-id", jsonData[i]["id"]);
+    link.setAttribute("class", "offerPreviewDesktopLink");
+    link.setAttribute("id", "offerPreviewDesktopLink" + i);
+    link.setAttribute("style", "margin-left:20px; text-decoration: none;");
+    //link.setAttribute("onclick", "loadOfferPreviewinPopup('" + jsonData[i]["id"] + "');return false;");
+    link.setAttribute("href", "javascript:void(0)");
+
+    link.onclick = function (event) {
+      var offerId = event.target.getAttribute("data-id");
+      localStorage["offerId"] = offerId;
+      openDesktopPreview();
+    }
+    dateSpan.appendChild(link);
+
     p.appendChild(dateSpan)
 
     element.appendChild(p);
@@ -344,7 +385,7 @@ function loadOfferPreviewinPopupFromOfferList(link) {
 }
 
 function loadOfferPreviewinPopup(currentOfferId) {
-
+  document.getElementById("desktopLink").setAttribute("data-id", currentOfferId);
   //var jsonData = request.source;
   document.getElementById('offerList').hidden = true;
   document.getElementById("offerpreview").hidden = false;

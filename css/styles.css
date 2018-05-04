@@ -25,3 +25,46 @@ body {
 a:link {
     text-decoration: none;
 }
+
+.desktopContentDiv {
+    box-sizing: border-box;
+    color: rgb(17, 17, 17);
+    height: 1366px;
+    max-width: 1024px;
+    min-height: auto;
+    min-width: auto;
+    text-decoration: none solid rgb(17, 17, 17);
+    text-size-adjust: 100%;
+    width: 1024px;
+    column-rule-color: rgb(17, 17, 17);
+    perspective-origin: 512px 683px;
+    transform-origin: 512px 683px;
+    caret-color: rgb(17, 17, 17);
+    border: 0px none rgb(17, 17, 17);
+    flex: 1 0 auto;
+    font: normal normal 400 normal 13px / 19px "Amazon Ember", Arial, sans-serif;
+    margin: auto;
+    outline: rgb(17, 17, 17) none 0px;
+    padding: 14px 18px;
+}
+
+.back-to-top-span {
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: block;
+    height: 49px;
+    text-align: center;
+    text-decoration: none solid rgb(255, 255, 255);
+    text-size-adjust: 100%;
+    white-space: nowrap;
+    width: 1048px;
+    column-rule-color: rgb(255, 255, 255);
+    perspective-origin: 524px 24.5px;
+    transform-origin: 524px 24.5px;
+    caret-color: rgb(255, 255, 255);
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal 400 normal 13px / 19px arial, sans-serif;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 15px 0px;
+}/*#SPAN_1*/
