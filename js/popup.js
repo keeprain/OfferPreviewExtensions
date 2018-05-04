@@ -64,14 +64,31 @@ function parseJsonToPageContent(jsonOfferCreativeData) {
 
     element = document.getElementById("whywepickedit-text");
     element.appendChild(StringToHTMLElement(jsonOfferCreativeData['detailPageCopy']['whyWePickedIt']));
+    var sessionHeight = document.getElementById('whywepickedit-innerdiv').clientHeight;
+    console.log(sessionHeight);
+    if (sessionHeight < 200 ) {
+      document.getElementById("whywepickedit-middlediv").setAttribute("style", "max-height: none; height: auto;")
+      document.getElementById("whywepickedit-seemore").hidden = true;
+      document.getElementById("whywepickedit-fade").hidden = true;
+    }    
 
     element = document.getElementById("wewantyoutoknow-text");
     element.appendChild(StringToHTMLElement(jsonOfferCreativeData['detailPageCopy']['weWantYouToKnow']));
+
+    sessionHeight = document.getElementById('wewantyoutoknow-innerdiv').clientHeight;
+    console.log(sessionHeight);
+    if (sessionHeight < 200 ) {
+      document.getElementById("wewantyoutoknow-middlediv").setAttribute("style", "max-height: none; height: auto;")
+      document.getElementById("wewantyoutoknow-seemore").hidden = true;
+      document.getElementById("wewantyoutoknow-fade").hidden = true;
+    }    
 
     document.getElementById('howtogetithome-title').innerText = jsonOfferCreativeData['detailPageCopy']['howToGetItHome']['accessibilityText'];
     document.getElementById('howtogetithome-image').src = jsonOfferCreativeData['detailPageCopy']['howToGetItHome']['src'];
     document.getElementById('sizeandweight-specifications').innerText = jsonOfferCreativeData['detailPageCopy']['sizeAndWeight']['summaryText'];
     document.getElementById('size-and-weight-specifications').innerText = jsonOfferCreativeData['detailPageCopy']['sizeAndWeight']['specificationText'];
+
+
   }
 }
 
@@ -88,6 +105,12 @@ function clearPreviousPreview() {
   document.getElementById('howtogetithome-image').src = "";
   document.getElementById('sizeandweight-specifications').innerText = "";
   document.getElementById('size-and-weight-specifications').innerText = "";
+  document.getElementById("whywepickedit-middlediv").setAttribute("style", "max-height: none; height: 200px;")
+  document.getElementById("whywepickedit-seemore").hidden = false;
+  document.getElementById("whywepickedit-fade").hidden = false;
+  document.getElementById("wewantyoutoknow-middlediv").setAttribute("style", "max-height: none; height: 200px;")
+  document.getElementById("wewantyoutoknow-seemore").hidden = false;
+  document.getElementById("wewantyoutoknow-fade").hidden = false;
   toggleToCollaps("whywepickedit");
   toggleToCollaps("wewantyoutoknow");
 }
