@@ -78,7 +78,7 @@ function parseJsonToPageContent(jsonOfferCreativeData) {
 function clearPreviousPreview() {
   document.getElementById('heroimage').src = "";
   document.getElementById('altimage1').src = "";
-  document.getElementById("altimge2Div").src = "";
+  document.getElementById("altimage2").src = "";
   document.getElementById('headline').innerText = "";
   document.getElementById('summary').innerText = "";
   document.getElementById("whatyouget-text").innerHTML = "";
@@ -326,6 +326,25 @@ function loadOfferPreviewinPopup(currentOfferId) {
   document.getElementById('offerList').hidden = true;
   document.getElementById("offerpreview").hidden = false;
 
+  var creativeUrl = "https://tesoro-offer-management-iad.iad.proxy.amazon.com/services/creative/localizedOffer?offerId=" + currentOfferId + '&locale=en_US';
+
+  $.ajax({
+    type: 'POST',
+    url: creativeUrl,
+    success: function (data) {
+      //var jsonOfferCreativeData = JSON.parse(creativeRequest.responseText);
+      parseJsonToPageContent(data);
+      console.log(JSON.stringify(data));
+    },
+    error: function (xhr, status, error) {
+      // handle error
+      clearPreviousPreview();
+      var err = eval("(" + xhr.responseText + ")");
+      console.log(err);
+    }
+
+  });
+/*
   var creativeRequest = new XMLHttpRequest();
   creativeRequest.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -339,6 +358,7 @@ function loadOfferPreviewinPopup(currentOfferId) {
   var creativeUrl = "https://tesoro-offer-management-iad.iad.proxy.amazon.com/services/creative/localizedOffer?offerId=" + currentOfferId + '&locale=en_US';
   creativeRequest.open("POST", creativeUrl, true);
   creativeRequest.send();
+  */
 
   localStorage["offerId"] = currentOfferId;
   console.log(localStorage["offerId"]);
