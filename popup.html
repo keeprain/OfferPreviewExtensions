@@ -12,22 +12,30 @@
     <link href="css/4.css" rel="stylesheet" type="text/css" id="app-css">
 </head>
 
-<body style="width: 375px; height: 667px;">
-    <div id='offerList' style="margin:10px;">
+<body style="width: 375px; height: 667px; ">
+    <div id='offerList' style="margin:10px; ">
         <h2>Upcoming offers</h2>
         <p id="loadingtext">Loading offers...</p>
         <!--
         <a href="https://rsp-portal-na.amazon.com/portal/#url=https%3A%2F%2Ftesoro-offer-management-iad.iad.proxy.amazon.com%2Fstatic%2Fsearch.html"
             target="_blank"> RSP </a>. 
         -->
-        <p style="position: absolute; bottom: 0; color:#767676; font-size: 0.9em; font-style: italic"> Offer Preview V0.15 | For any question or feedback, please contact frankwu@amzon.com</p>
+        
+        <p style="position: absolute; bottom: 0; color:#767676; font-size: 0.9em; margin-left: 40px; "> Offer Preview V0.2 | frankwu@amzon.com </p>
+        
     </div>
 
     <div id="offerpreview" hidden=true>
-        <div style="margin:5px 0 5px 0;" >
-            <a href="javascript:void(0)" id="offerListLink" data-id="0421" style="margin-left: 10px;" tabindex="-1"> &lt; offer list</a>
-            <a href="javascript:void(0)" id="desktopLink" data-id="0421" style="margin-left:80px;" tabindex="-2"> Desktop CX</a>
-            <a href="javascript:void(0)" id="mobileLink" data-id="0421" style="float: right; margin-right:10px;" tabindex="-2"> Popup</a>
+        <div style="margin:5px 0 5px 0;" class="row">
+            <div class="column">
+                <a href="javascript:void(0)" id="offerListLink" data-id="0421" style="margin-left: 10px;" tabindex="-1"> &lt; offer list</a>
+            </div>
+            <div class="column" style="text-align: center;">
+                <a href="javascript:void(0)" id="desktopLink" data-id="0421" tabindex="-2"> Desktop CX</a>
+            </div>
+            <div class="column" style="text-align: right;">
+                <a href="javascript:void(0)" id="mobileLink" data-id="0421" style="margin-right: 10px;" tabindex="-2"> Open new tab</a>
+            </div>
         </div>
 
 

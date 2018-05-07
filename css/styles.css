@@ -68,3 +68,16 @@ a:link {
     outline: rgb(255, 255, 255) none 0px;
     padding: 15px 0px;
 }/*#SPAN_1*/
+
+/* 3 columns layout */
+.column {
+    float: left;
+    width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}

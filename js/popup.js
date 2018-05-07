@@ -307,17 +307,28 @@ function parseJsonToOfferList(jsonData) {
     var titleSpan = document.createElement("span");
     var titleText = document.createTextNode(jsonData[i]["offerName"]);
     titleSpan.appendChild(titleText);
+    titleSpan.setAttribute("style", "font-size: 17px;");
     p.appendChild(titleSpan);
     p.appendChild(document.createElement("br"));
+
+    var divSecondRow = document.createElement("div");
+    divSecondRow.setAttribute("class", "row");
+    var divDate = document.createElement("div");
+    divDate.setAttribute("class", "column");
+    var divMobileLink = document.createElement("div");
+    divMobileLink.setAttribute("class", "column");
+    var divDesktopLink = document.createElement("div");
+    divDesktopLink.setAttribute("class", "column");
 
     var time = jsonData[i]["scheduledStart"];
     var date = new Date(time);
 
     var dateSpan = document.createElement("span");
-    var dateText = document.createTextNode(date.toLocaleDateString() + " | ");
+    var dateText = document.createTextNode(date.toLocaleDateString());
     dateSpan.appendChild(dateText);
+    divDate.appendChild(dateSpan);
 
-    var mobilePreviewLinkText = "Preview Mobile CX";
+    var mobilePreviewLinkText = "Mobile CX";
     var link = document.createElement("a");
     var linkText = document.createTextNode(mobilePreviewLinkText);
     link.appendChild(linkText);
@@ -333,7 +344,7 @@ function parseJsonToOfferList(jsonData) {
       loadOfferPreviewinPopupFromOfferList(event.target);
     }
 
-    dateSpan.appendChild(link);
+    divMobileLink.appendChild(link);
 
     var desktopPreviewLinkText = "Desktop CX";
     link = document.createElement("a");
@@ -351,13 +362,16 @@ function parseJsonToOfferList(jsonData) {
       localStorage["offerId"] = offerId;
       openDesktopPreview();
     }
-    dateSpan.appendChild(link);
+    divDesktopLink.appendChild(link);
 
-    p.appendChild(dateSpan)
+    divSecondRow.appendChild(divDate);
+    divSecondRow.appendChild(divMobileLink);
+    divSecondRow.appendChild(divDesktopLink);
+
+    p.appendChild(divSecondRow)
 
     element.appendChild(p);
-    //var br = document.createElement("br");
-    //element.appendChild(br);
+
   }
   document.getElementById("offerList").appendChild(element);
 
