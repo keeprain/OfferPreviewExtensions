@@ -35,6 +35,9 @@ function parseJsonToPageContent(jsonOfferCreativeData) {
     if (jsonOfferCreativeData['detailPageImagery']) {
       document.getElementById('hero-image').setAttribute("style", "background-image: url(" + jsonOfferCreativeData['detailPageImagery']['heroImage']['src'] + ");");
       document.getElementById('altimage1').setAttribute("style", "background-image: url(" + jsonOfferCreativeData['detailPageImagery']['additionalImages'][0]['src'] + ");");
+      if (jsonOfferCreativeData['detailPageImagery']['additionalImages'].length > 1) {
+        document.getElementById('altimage2').setAttribute("style", "background-image: url(" + jsonOfferCreativeData['detailPageImagery']['additionalImages'][1]['src'] + ");");
+      }
       console.log(jsonOfferCreativeData['detailPageImagery']['heroImage']['src']);
         /*
       document.getElementById('altimage1').src = jsonOfferCreativeData['detailPageImagery']['additionalImages'][0]['src'];
@@ -65,7 +68,7 @@ function parseJsonToPageContent(jsonOfferCreativeData) {
       
       document.getElementById('howtogetithome-title').innerText = jsonOfferCreativeData['detailPageCopy']['howToGetItHome']['accessibilityText'];
       document.getElementById('howtogetithome-image').src = jsonOfferCreativeData['detailPageCopy']['howToGetItHome']['src'];
-      document.getElementById('sizeandweight-specifications').innerText = jsonOfferCreativeData['detailPageCopy']['sizeAndWeight']['summaryText'];
+      document.getElementById('sizeandweight-summary').innerText = jsonOfferCreativeData['detailPageCopy']['sizeAndWeight']['summaryText'];
       document.getElementById('size-and-weight-specifications').innerText = jsonOfferCreativeData['detailPageCopy']['sizeAndWeight']['specificationText'];
   
   
@@ -103,6 +106,9 @@ function parsePriceInfo(jsonOfferDetail) {
         var price = jsonOfferDetail['offerPrice']['amount'];
         $(".a-price-whole")[0].innerText = Math.floor(price);
         $(".a-price-fraction")[0].innerText = (price - Math.floor(price)).toFixed(2) * 100;
+        if($(".a-price-fraction")[0].innerText == "0") {
+          $(".a-price-fraction")[0].innerText = "00";
+        }
         /*
         document.getElementById('sample-badge-div').hidden = true;
         document.getElementById("price").innerText = "$" + jsonOfferDetail['offerPrice']['amount'];

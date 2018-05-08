@@ -1,8 +1,11 @@
 {
-    "name": "Treasure Truck Offer Preview",
-    "description" : "Base Level Extension",
-    "version": "1.0",
+    "name": "Tesoro Offer Preview",
+    "description" : "Preview user experience of upcoming offers",
+    "version": "0.2.0.0",
     "manifest_version": 2,
+    "icons": { 
+      "128": "images/icon_128.png" 
+    },
     "browser_action": {
         "default_popup": "popup.html",
         "default_icon": "images/preview.png"
