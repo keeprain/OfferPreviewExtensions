@@ -17,15 +17,23 @@
         <div style="background-color: #003b5c; text-align: center; position: absolute; width: 375px; height: 60px; margin: -10px;">
             <img src="images/ttop.png" width="80%;" style="margin-top: 20px;">
         </div>
-        <h2 style="padding-top: 65px; margin-bottom: 5px">Upcoming offers</h2>
+        <div id="updateNoticeDiv" hidden=true style="padding: 60px 0 5px 0px;  margin: 0 -10px 0 -10px; background-color: bisque">
+            <span style="padding-left: 10px; display:inline-block;">
+                An update is available. Please download
+                <a href="https://drive.corp.amazon.com/documents/Tesoro/Extensions/Offer%20Preview/OfferPreviewExtensions.crx"
+                    target="_blank" tabindex="-3">latest version</a> and drag to your Chrome extension page.
+            </span>
+        </div>
+        <h2 id="upcomingOffersH2" style="padding-top: 65px; margin-bottom: 5px">Upcoming offers</h2>
+
         <p id="loadingtext">Loading offers...</p>
         <!--
         <a href="https://rsp-portal-na.amazon.com/portal/#url=https%3A%2F%2Ftesoro-offer-management-iad.iad.proxy.amazon.com%2Fstatic%2Fsearch.html"
             target="_blank"> RSP </a>. 
         -->
-        
-        <p style="position: absolute; bottom: 0; color:#767676; font-size: 0.9em; margin-left: 40px; "> Offer Preview V0.2 | frankwu@amazon.com </p>
-        
+
+        <p style="position: absolute; bottom: 0; color:#767676; font-size: 0.9em; margin-left: 40px; "> Offer Preview V0.201 | frankwu@amazon.com </p>
+
     </div>
 
     <div id="offerpreview" hidden=true>

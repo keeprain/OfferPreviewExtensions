@@ -66,22 +66,22 @@ function parseJsonToPageContent(jsonOfferCreativeData) {
     element.appendChild(StringToHTMLElement(jsonOfferCreativeData['detailPageCopy']['whyWePickedIt']));
     var sessionHeight = document.getElementById('whywepickedit-innerdiv').clientHeight;
     console.log(sessionHeight);
-    if (sessionHeight < 200 ) {
+    if (sessionHeight < 200) {
       document.getElementById("whywepickedit-middlediv").setAttribute("style", "max-height: none; height: auto;")
       document.getElementById("whywepickedit-seemore").hidden = true;
       document.getElementById("whywepickedit-fade").hidden = true;
-    }    
+    }
 
     element = document.getElementById("wewantyoutoknow-text");
     element.appendChild(StringToHTMLElement(jsonOfferCreativeData['detailPageCopy']['weWantYouToKnow']));
 
     sessionHeight = document.getElementById('wewantyoutoknow-innerdiv').clientHeight;
     console.log(sessionHeight);
-    if (sessionHeight < 200 ) {
+    if (sessionHeight < 200) {
       document.getElementById("wewantyoutoknow-middlediv").setAttribute("style", "max-height: none; height: auto;")
       document.getElementById("wewantyoutoknow-seemore").hidden = true;
       document.getElementById("wewantyoutoknow-fade").hidden = true;
-    }    
+    }
 
     document.getElementById('howtogetithome-title').innerText = jsonOfferCreativeData['detailPageCopy']['howToGetItHome']['accessibilityText'];
     document.getElementById('howtogetithome-image').src = jsonOfferCreativeData['detailPageCopy']['howToGetItHome']['src'];
@@ -161,7 +161,7 @@ function StringToHTMLElement(str) {
 
 function onWindowLoad() {
 
-
+  checkUpdate();
   var offerList = document.querySelector('#offerList');
 
   chrome.tabs.query({
@@ -205,10 +205,61 @@ function onWindowLoad() {
 
   var offerId = document.getElementById("mobileLink").getAttribute("data-id");
   document.getElementById("mobileLink").onclick = function () { openMobilePreview() };
-  
-  document.getElementById("desktopLink").onclick = function () { openDesktopPreview(offerId)};
-  
 
+  document.getElementById("desktopLink").onclick = function () { openDesktopPreview(offerId) };
+
+
+}
+var currentVersion;
+var latestVersion;
+
+function checkUpdate() {
+  $.getJSON("manifest.json", function (data) {
+    currentVersion = data["version"];
+    console.log(currentVersion);
+    var updateUrl = "https://w.amazon.com/bin/view/TesoroExtensions/";
+    $.ajax({
+      type: 'GET',
+      url: updateUrl,
+      success: function (html) {
+        var elements = $($.parseHTML(html)).find('p');
+        for (var i = 0; i < elements.length; i++) {
+          var str = elements[i].innerText;
+          if (str.includes("offerpreview_latestversion:")) {
+            latestVersion = str.substring("offerpreview_latestversion:".length, str.length);
+
+            $(document).ready( function() {
+              var result = cmpVersions(currentVersion, latestVersion);
+              if (result < 0) {
+                document.getElementById("updateNoticeDiv").hidden = false;
+                document.getElementById("upcomingOffersH2").setAttribute("style", "padding-top: 10px; margin-bottom: 5px")
+              }
+            })
+            
+          }
+        }        
+      },
+      error: function (xhr, status, error) {
+        var err = eval("(" + xhr.responseText + ")");
+        console.log(err);
+      }
+    });
+  });
+}
+function cmpVersions(a, b) {
+  var i, diff;
+  var regExStrip0 = /(\.0+)+$/;
+  var segmentsA = a.replace(regExStrip0, '').split('.');
+  var segmentsB = b.replace(regExStrip0, '').split('.');
+  var l = Math.min(segmentsA.length, segmentsB.length);
+
+  for (i = 0; i < l; i++) {
+    diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+    if (diff) {
+      return diff;
+    }
+  }
+  return segmentsA.length - segmentsB.length;
 }
 
 function backToOfferList() {
@@ -225,7 +276,7 @@ function openMobilePreview() {
 
 function openDesktopPreview() {
   //localStorage["offerId"] = offerId;
-  chrome.tabs.create({url: "desktoppreview.html"});
+  chrome.tabs.create({ url: "desktoppreview.html" });
 }
 
 function toggle(prefix) {
@@ -422,21 +473,21 @@ function loadOfferPreviewinPopup(currentOfferId) {
     }
 
   });
-/*
-  var creativeRequest = new XMLHttpRequest();
-  creativeRequest.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      // Typical action to be performed when the document is ready:
-
-      var jsonOfferCreativeData = JSON.parse(creativeRequest.responseText);
-      parseJsonToPageContent(jsonOfferCreativeData);
-
-    }
-  };
-  var creativeUrl = "https://tesoro-offer-management-iad.iad.proxy.amazon.com/services/creative/localizedOffer?offerId=" + currentOfferId + '&locale=en_US';
-  creativeRequest.open("POST", creativeUrl, true);
-  creativeRequest.send();
-  */
+  /*
+    var creativeRequest = new XMLHttpRequest();
+    creativeRequest.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        // Typical action to be performed when the document is ready:
+  
+        var jsonOfferCreativeData = JSON.parse(creativeRequest.responseText);
+        parseJsonToPageContent(jsonOfferCreativeData);
+  
+      }
+    };
+    var creativeUrl = "https://tesoro-offer-management-iad.iad.proxy.amazon.com/services/creative/localizedOffer?offerId=" + currentOfferId + '&locale=en_US';
+    creativeRequest.open("POST", creativeUrl, true);
+    creativeRequest.send();
+    */
 
   localStorage["offerId"] = currentOfferId;
   console.log(localStorage["offerId"]);
